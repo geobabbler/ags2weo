@@ -81,8 +81,7 @@ def main():
     root = os.path.dirname(path)
     dest = root + "\\" + "xyz"
     ensure_dir(dest)
-    depth = argv[2]
-    start = argv [3]
+    start = argv [2]
     initlevel = int(start)
     getLevels(top)
 
