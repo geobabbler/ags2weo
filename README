@@ -1,5 +1,7 @@
 This script converts an "exploded" ArcGIS Server tile cache to a WeoGeo tile pack.
 
+ags2weo.py - performs tile cache conversion
+
 Usage ags2weo.py {path} {start_zoom}
 
 path - the root level of the ArcGIS Server cache. This must be the parent folder of the "level" folders in the cache (L00, L01, etc.)
@@ -8,3 +10,9 @@ start_zoom - the first zoom level of the cache. ArcGIS always starts number its 
 This script assumes that multiple levels are consecutive. It will start at L00 and iterate through every level, assuming they are sequential. It does does currently read the ArcGIS conf.xml file so non-consecutive zoom levels will produce incorrect results.
 
 The script does not support "compact" ArcGIS caches.
+
+packagetile.py - compresses tiles into 'xyz.tar.gz'
+
+Usage packagetiles.py {path}
+
+path - full path to the 'xyz' folder contains converted tiles
