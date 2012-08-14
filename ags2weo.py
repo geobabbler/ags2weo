@@ -38,27 +38,42 @@ dest = ""
 
 #creates directory if it doesn't exist
 def ensure_dir(f):
-    if not os.path.exists(f):
-        os.makedirs(f)
+	try:
+		if not os.path.exists(f):
+			os.makedirs(f)
+	except:
+		raise
 
 #converts Esri "level" to appropriate zoom level
 def getZ(level):
-    fldr = level.replace("L", "")
-    val = int(fldr) + initlevel #add user-provided initial zoom level
-    return val
+	try:
+		fldr = level.replace("L", "")
+		val = int(fldr) + initlevel #add user-provided initial zoom level
+		return val
+	except:
+		raise
 
 #converts Esri "Row" to Y value
 def getY(row):
-    hex = row.replace("R", "0x")
-    val = int(hex, 0) #unroll hex notation used by Esri
-    return val
+	try:
+		hex = row.replace("R", "0x")
+		val = int(hex, 0) #unroll hex notation used by Esri
+		return val
+	except:
+		raise
 
 #converts Esri "Column" to X value
 def getX(column):
-    hex = column.replace("C", "0x")
-    val = int(hex, 0) #unroll hex notation used by Esri
-    return val
+	try:
+		hex = column.replace("C", "0x")
+		val = int(hex, 0) #unroll hex notation used by Esri
+		return val
+	except:
+		raise
 
+#iterates a directory tree, returning subdirectories and files
+#some_dir = top level directory
+#level = iteration depth
 def walklevel(some_dir, level=1):
     some_dir = some_dir.rstrip(os.path.sep)
     assert os.path.isdir(some_dir)
@@ -86,32 +101,41 @@ def main():
     getLevels(top)
 
 def getLevels(top):
-    for subdir, dirs, files in walklevel(top, 0):
-        for dir in dirs:
-            z = getZ(dir)
-            lpath = subdir + "\\" + str(dir)
-            zpath = dest + "\\" + str(z)
-            ensure_dir(zpath)
-            print "Processing zoom level " + str(z)
-            getRows(lpath, zpath)
+	try:
+		for subdir, dirs, files in walklevel(top, 0):
+			for dir in dirs:
+				z = getZ(dir)
+				lpath = subdir + "\\" + str(dir)
+				zpath = dest + "\\" + str(z)
+				ensure_dir(zpath)
+				print "Processing zoom level " + str(z)
+				getRows(lpath, zpath)
+	except:
+		raise
 
 def getRows(lpath, zpath):
-    for subdir, dirs, files in walklevel(lpath, 0):
-        for dir in dirs:
-            y = getY(dir)
-            rpath = subdir + "\\" + str(dir)
-            ypath = zpath + "\\" + str(y)
-            ensure_dir(ypath)
-            getFiles(rpath, ypath)
+	try:
+		for subdir, dirs, files in walklevel(lpath, 0):
+			for dir in dirs:
+				y = getY(dir)
+				rpath = subdir + "\\" + str(dir)
+				ypath = zpath + "\\" + str(y)
+				ensure_dir(ypath)
+				getFiles(rpath, ypath)
+	except:
+		raise
 
 def getFiles(rpath, ypath):
-    for subdir, dirs, files in walklevel(rpath, 0):
-        for file in files:
-            finfo = os.path.splitext(file)
-            x = getX(finfo[0])
-            xfile = str(x) + finfo[1]
-            cfilepath = subdir + "\\" + file
-            xfilepath = ypath + "\\" + xfile
-            shutil.copy2(cfilepath, xfilepath)
+	try:
+		for subdir, dirs, files in walklevel(rpath, 0):
+			for file in files:
+				finfo = os.path.splitext(file)
+				x = getX(finfo[0])
+				xfile = str(x) + finfo[1]
+				cfilepath = subdir + "\\" + file
+				xfilepath = ypath + "\\" + xfile
+				shutil.copy2(cfilepath, xfilepath)
+	except:
+		raise
             
 main()
