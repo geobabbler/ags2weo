@@ -11,7 +11,7 @@ This script assumes that multiple levels are consecutive. It will start at L00 a
 
 The script does not support "compact" ArcGIS caches.
 
-packagetile.py - compresses tiles into 'xyz.tar.gz'
+packagetiles.py - compresses tiles into 'xyz.tar.gz'
 
 Usage packagetiles.py {path}
 
